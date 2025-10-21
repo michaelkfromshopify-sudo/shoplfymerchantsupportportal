@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopify Partner Support</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-900 to-teal-600 min-h-screen">
+  <custom-navbar></custom-navbar>
+
+  <main class="flex items-center justify-center min-h-[calc(100vh-100px)] p-4">
+    <div class="bg-white rounded-xl shadow-2xl overflow-hidden max-w-md w-full">
+      <div class="p-8">
+        <div class="flex justify-center mb-6">
+          <img src="https://shopify-assets.shopifycdn.com/accounts/production/theme_configuration/logo/oauth_provider/merchant/logo.svg" alt="Shopify Logo" class="h-10">
+        </div>
+
+        <div class="flex items-start mb-6">
+          <div class="mr-4 text-blue-600">
+            <i data-feather="life-buoy" class="w-8 h-8"></i>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold text-gray-800 mb-2">Are you experiencing issues with your store?</h1>
+            <p class="text-gray-600">No need to worry — you can contact a live partner advisor to assist you with your Shopify store setup, issues, or optimization. Choose one of the options below to connect immediately.</p>
+          </div>
+        </div>
+
+        <!-- UPDATED BUTTON SECTION -->
+        <div class="space-y-4">
+          <button id="emailBtn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-6 rounded-lg font-medium transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+            <i data-feather="mail" class="w-5 h-5"></i>
+            Contact via Email
+          </button>
+          <button id="whatsappBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-medium transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+            <i data-feather="message-circle" class="w-5 h-5"></i>
+            Chat on WhatsApp
+          </button>
+        </div>
+        <!-- END UPDATED BUTTON SECTION -->
+
+        <div class="bg-gray-50 px-8 py-4 text-center text-sm text-gray-500"></div>
+      </div>
+      <div class="bg-gray-50 px-8 py-4 text-center text-sm text-gray-500"></div>
+    </div>
+  </main>
+
+  <!-- MODAL FORM -->
+  <div id="contactModal" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-50 z-50">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Submit Support Request</h2>
+      <form id="contactForm" class="space-y-3">
+        <input type="text" id="brandName" placeholder="Brand Name" required class="w-full border rounded-lg p-2">
+        <input type="text" id="ticketId" value="f0b1a2c3-4d5e" readonly class="w-full border rounded-lg p-2 bg-gray-100">
+        <input type="url" id="storeUrl" placeholder="https://yourstore.myshopify.com" required class="w-full border rounded-lg p-2">
+        <input type="text" id="location" placeholder="Location of Operation" required class="w-full border rounded-lg p-2">
+        <textarea id="issue" placeholder="Short Note About the Issue" required class="w-full border rounded-lg p-2 h-24"></textarea>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" id="closeModal" class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Cancel</button>
+          <button type="submit" id="submitForm" class="px-4 py-2 text-white rounded-lg font-medium">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- END MODAL FORM -->
+
+  <custom-footer></custom-footer>
+
+  <script src="components/navbar.js"></script>
+  <script src="components/footer.js"></script>
+  <script src="script.js"></script>
+
+  <script>
+    feather.replace();
+
+    const modal = document.getElementById('contactModal');
+    const emailBtn = document.getElementById('emailBtn');
+    const whatsappBtn = document.getElementById('whatsappBtn');
+    const closeModal = document.getElementById('closeModal');
+    const contactForm = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitForm');
+    let contactType = '';
+
+    emailBtn.addEventListener('click', () => {
+      contactType = 'email';
+      submitBtn.className = 'px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium';
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    });
+
+    whatsappBtn.addEventListener('click', () => {
+      contactType = 'whatsapp';
+      submitBtn.className = 'px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium';
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const brand = document.getElementById('brandName').value.trim();
+      const store = document.getElementById('storeUrl').value.trim();
+      const location = document.getElementById('location').value.trim();
+      const issue = document.getElementById('issue').value.trim();
+      const ticket = 'f0b1a2c3-4d5e';
+
+      if (contactType === 'email') {
+        const subject = `New Support Request — ${brand}`;
+        const body = `Brand Name: ${brand}%0D%0ATicket ID: ${ticket}%0D%0AStore URL: ${store}%0D%0ALocation: ${location}%0D%0AIssue: ${issue}`;
+        window.open(`mailto:michael.kfromshopify@gmail.com?subject=${subject}&body=${body}`);
+      } else if (contactType === 'whatsapp') {
+        const message = `Brand Name: ${brand}%0ATicket ID: ${ticket}%0AStore URL: ${store}%0ALocation: ${location}%0AIssue: ${issue}`;
+        window.open(`https://wa.me/12899673640?text=${message}`);
+      }
+
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      contactForm.reset();
+    });
+  </script>
+</body>
+</html>
